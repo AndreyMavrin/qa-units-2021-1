@@ -3,11 +3,17 @@ import Order from "./Order";
 import {fakeOrders} from "../data/fakeOrders";
 import {configure, shallow} from "enzyme";
 import Adapter from "enzyme-adapter-react-16";
-import toJson from "enzyme-to-json";
+
+import {getDate} from '../utils/getDate';
+
+jest.mock('../utils/getDate');
 
 configure({ adapter: new Adapter() });
 
 describe('Order.js', () => {
+    beforeEach(() => {
+        getDate.mockReturnValue("9 декабря, вс, 2018 год");
+    });
     afterEach(() => {
         jest.clearAllMocks();
     });
@@ -18,7 +24,7 @@ describe('Order.js', () => {
     it('render with order', () => {
         const wrapper = shallow(<Order order={fakeOrders[0]}/>);
 
-        expect(toJson(wrapper)).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
 
     it('set another order prop', () => {
